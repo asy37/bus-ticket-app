@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation';
+
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { LogInIcon } from 'lucide-react';
 
@@ -9,6 +11,8 @@ import {
 } from '../../ui/dropdown-menu';
 
 export const AuthDropdown = () => {
+  const navigate = useRouter();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -17,7 +21,7 @@ export const AuthDropdown = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate.push('/login')}>
           <LogInIcon />
           <span>Logout</span>
         </DropdownMenuItem>
