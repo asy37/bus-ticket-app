@@ -13,10 +13,14 @@ type NavMenuProps = {
 };
 export const NavMenu: React.FC<NavMenuProps> = ({ data }) => {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="w-full">
       <NavigationMenuList>
         {data.map((item) => (
-          <NavigationMenuLink key={item.href} href={item.href} className="p-2">
+          <NavigationMenuLink
+            key={item.href}
+            href={item.href}
+            className="text-primary transation-colors p-2 duration-300 hover:scale-105"
+          >
             {item.title}
           </NavigationMenuLink>
         ))}
