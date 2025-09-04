@@ -6,7 +6,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
-import { NavLinkTypes } from '@/lib/types/navLinkTypes';
+import { NavLinkTypes } from '@/lib/types/nav-menu/navLinkTypes';
 
 type NavMenuProps = {
   data: NavLinkTypes;

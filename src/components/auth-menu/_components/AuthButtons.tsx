@@ -1,3 +1,4 @@
+'use client';
 import { useRouter } from 'next/navigation';
 
 import { Separator } from '@radix-ui/react-separator';
