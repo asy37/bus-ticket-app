@@ -1,6 +1,6 @@
 export type RegisterType = {
   email: string;
-  password: string | number;
+  password: string;
   name: string;
   surname: string;
   gender: string;

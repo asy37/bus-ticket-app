@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className="relative min-h-screen min-w-full">
         <QueryClientProvider client={queryClient}>
           <Header />
-          {children}
+          <div className="flex items-center justify-center p-10"> {children}</div>
         </QueryClientProvider>
       </body>
     </html>
