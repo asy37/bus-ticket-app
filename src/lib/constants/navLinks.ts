@@ -1,4 +1,4 @@
-import { NavLinkTypes } from '../types/navLinkTypes';
+import { NavLinkTypes } from '../types/nav-menu/navLinkTypes';
 
 export const NAV_LINKS: NavLinkTypes = [
   { title: 'Home', href: '/' },

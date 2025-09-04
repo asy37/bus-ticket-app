@@ -1,3 +1,4 @@
+'use client';
 import { useRouter } from 'next/navigation';
 
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';

@@ -1,4 +1,10 @@
+import { LoginView } from '@/features/auth/login/view';
+
 const Login = () => {
-  return <div>Login Page</div>;
+  return (
+    <div>
+      <LoginView />
+    </div>
+  );
 };
 export default Login;
