@@ -1,3 +1,9 @@
+import { Background } from '@/components/background/Background';
+
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <div className="relative h-full w-full">
+      <Background />;
+    </div>
+  );
 }
