@@ -12,7 +12,7 @@ import { mockBackgroundsData } from './mockData';
 
 export const Background = () => {
   return (
-    <div>
+    <div className="h-[760px] w-full">
       <Carousel
         className="absolute top-0 -z-10 w-full overflow-hidden"
         plugins={[

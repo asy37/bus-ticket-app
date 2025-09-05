@@ -1,7 +1,33 @@
+'use client';
+import { useForm } from 'react-hook-form';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { BusIcon } from 'lucide-react';
+
+import { InquiryType } from '@/lib/types/inquiry';
+
+import { InquiryForm } from './_components/InquiryForm';
+import { inquirySchema } from './_components/inquirySchema';
+
 export const InquiryBox = () => {
+  const methods = useForm<InquiryType>({
+    mode: 'onSubmit',
+    resolver: zodResolver(inquirySchema),
+    defaultValues: {
+      tripType: 'one-way',
+      from: '',
+      to: '',
+      departureDate: '',
+      returnDate: '',
+    },
+  });
   return (
-    <div className="absolute z-10 flex min-h-[700px] w-full items-end justify-center">
-      <div className="mx-auto h-32 w-2/3 bg-yellow-200/50">InquiryBox</div>
+    <div className="flex h-96 w-full flex-col items-center justify-center">
+      <span className="flex items-end gap-4 pb-6 text-2xl font-bold">
+        <h1 className="text-4xl">Lets Search Trip</h1>
+        <BusIcon />
+      </span>
+      <InquiryForm methods={methods} />
     </div>
   );
 };
