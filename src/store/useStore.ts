@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { storageHandler } from '@/lib/handler/storageHandler';
+import { InquiryType } from '@/lib/types/inquiry';
 
 interface AuthStore {
   isAuthenticated: boolean;
@@ -8,6 +8,16 @@ interface AuthStore {
 }
 
 export const useStore = create<AuthStore>((set) => ({
-  isAuthenticated: !!storageHandler.get('user'),
+  isAuthenticated: false,
   setIsAuthenticated: (value) => set({ isAuthenticated: value }),
+}));
+
+type InquiryStore = {
+  trips: InquiryType[];
+  setTrips: (trips: InquiryType[]) => void;
+};
+
+export const useInquiryStore = create<InquiryStore>((set) => ({
+  trips: [],
+  setTrips: (trips) => set({ trips }),
 }));
