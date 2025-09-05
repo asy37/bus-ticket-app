@@ -1,7 +1,16 @@
+import { cities } from '@/lib/api/mock-data/cities';
+
 export type InquiryType = {
-  tripType: string;
   from: string;
   to: string;
   departureDate: string;
-  returnDate: string;
+};
+
+export type Trip = {
+  id: number;
+  from: (typeof cities)[number];
+  to: (typeof cities)[number];
+  date: string;
+  availableSeats: number;
+  price: number;
 };

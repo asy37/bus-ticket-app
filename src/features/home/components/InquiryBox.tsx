@@ -6,19 +6,17 @@ import { BusIcon } from 'lucide-react';
 
 import { InquiryType } from '@/lib/types/inquiry';
 
-import { InquiryForm } from './_components/InquiryForm';
-import { inquirySchema } from './_components/inquirySchema';
+import { InquiryForm } from './InquiryForm';
+import { inquirySchema } from './inquirySchema';
 
 export const InquiryBox = () => {
   const methods = useForm<InquiryType>({
     mode: 'onSubmit',
     resolver: zodResolver(inquirySchema),
     defaultValues: {
-      tripType: 'one-way',
       from: '',
       to: '',
       departureDate: '',
-      returnDate: '',
     },
   });
   return (

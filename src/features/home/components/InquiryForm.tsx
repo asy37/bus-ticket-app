@@ -2,23 +2,42 @@
 import React from 'react';
 import { Form, FormProvider, UseFormReturn } from 'react-hook-form';
 
+import trips from '@/lib/api/mock-data/trips';
+import { CityType } from '@/lib/types/cities';
 import { InquiryType } from '@/lib/types/inquiry';
 
-import { Button } from '../../ui/button';
-import { DatePicker } from '../../ui/date-picker';
-import { FormControl, FormField, FormItem, FormLabel } from '../../ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
+import { Button } from '../../../components/ui/button';
+import { DatePicker } from '../../../components/ui/date-picker';
+import { FormControl, FormField, FormItem, FormLabel } from '../../../components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../../components/ui/select';
+import { useHome } from '../api/useHome';
 
 type InquiryFormProps = {
   methods: UseFormReturn<InquiryType>;
 };
 export const InquiryForm: React.FC<InquiryFormProps> = ({ methods }) => {
+  const { useGetCities, usePostInquiry } = useHome();
+  const { mutateAsync: cusePostInquiry } = usePostInquiry();
+  const { data: citiesRaw } = useGetCities();
+
+  const formValues = methods.getValues();
+
+  console.log('Filtered Trips:', trips);
+
+  const cities: CityType[] = React.useMemo(() => citiesRaw || [], [citiesRaw]);
+
   const onSubmit = async (data: InquiryType) => {
-    await console.log(data);
+    await cusePostInquiry(data);
   };
   return (
     <FormProvider {...methods}>
-      <Form className="mx-auto flex h-64 w-2/3 items-center justify-center gap-2 rounded border bg-gray-100 p-10 shadow-md">
+      <Form className="mx-auto flex h-64 w-2/3 items-center justify-center gap-4 rounded border bg-gray-100 p-10 shadow-md">
         <FormField
           control={methods.control}
           name="from"
@@ -31,8 +50,13 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ methods }) => {
                     <SelectValue placeholder="Select a departure" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="istanbul">Istanbul</SelectItem>
-                    <SelectItem value="ankara">Ankara</SelectItem>
+                    {cities?.map((city) => {
+                      return (
+                        <SelectItem key={city.id} value={city.name}>
+                          {city.name}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -51,8 +75,13 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ methods }) => {
                     <SelectValue placeholder="Select a destination" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="istanbul">Istanbul</SelectItem>
-                    <SelectItem value="ankara">Ankara</SelectItem>
+                    {cities?.map((city) => {
+                      return (
+                        <SelectItem key={city.id} value={city.name}>
+                          {city.name}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -68,7 +97,16 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ methods }) => {
               <FormControl>
                 <DatePicker
                   value={field.value ? new Date(field.value) : undefined}
-                  onChange={(date) => field.onChange(date ? date.toISOString() : '')}
+                  onChange={(date) => {
+                    if (!date) {
+                      field.onChange('');
+                      return;
+                    }
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    field.onChange(`${day}.${month}.${year}`);
+                  }}
                   className="w-[180px]"
                 />
               </FormControl>
