@@ -1,0 +1,1 @@
+export { InquiryView } from './InquiryView';

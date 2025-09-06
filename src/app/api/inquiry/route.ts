@@ -14,13 +14,12 @@ export async function POST(request: Request) {
   const filteredTrips = trips.filter(
     (trip) => trip.from.name === from && trip.to.name === to && trip.date === departureDate
   );
-  console.log(trips);
 
   return new Response(
     JSON.stringify({
       success: true,
       data: filteredTrips,
-      message: 'Inquiry dasdareceived successfully',
+      message: 'Inquiry received successfully',
     })
   );
 }

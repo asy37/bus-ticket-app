@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 import { Form, FormProvider, UseFormReturn } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
-import trips from '@/lib/api/mock-data/trips';
 import { CityType } from '@/lib/types/cities';
 import { InquiryType } from '@/lib/types/inquiry';
 
@@ -22,22 +22,20 @@ type InquiryFormProps = {
   methods: UseFormReturn<InquiryType>;
 };
 export const InquiryForm: React.FC<InquiryFormProps> = ({ methods }) => {
+  const navigate = useRouter();
   const { useGetCities, usePostInquiry } = useHome();
   const { mutateAsync: cusePostInquiry } = usePostInquiry();
   const { data: citiesRaw } = useGetCities();
-
-  const formValues = methods.getValues();
-
-  console.log('Filtered Trips:', trips);
 
   const cities: CityType[] = React.useMemo(() => citiesRaw || [], [citiesRaw]);
 
   const onSubmit = async (data: InquiryType) => {
     await cusePostInquiry(data);
+    navigate.push('/inquiry');
   };
   return (
     <FormProvider {...methods}>
-      <Form className="mx-auto flex h-64 w-2/3 items-center justify-center gap-4 rounded border bg-gray-100 p-10 shadow-md">
+      <Form className="mx-auto flex h-fit w-2/3 flex-col items-center justify-center gap-4 rounded border bg-gray-100 p-10 shadow-md lg:flex-row">
         <FormField
           control={methods.control}
           name="from"

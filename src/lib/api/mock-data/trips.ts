@@ -8,9 +8,30 @@ function formatDate(date: Date) {
   const year = date.getFullYear();
   return `${day}.${month}.${year}`;
 }
+function formatTime() {
+  // 0–23 arasında saat
+  const hour = String(Math.floor(Math.random() * 24)).padStart(2, '0');
 
-function getRandomSeats() {
-  return Math.floor(Math.random() * 40) + 10;
+  // Dakikalar sadece [00, 15, 30, 45]
+  const minutesOptions = ['00', '15', '30', '45'];
+  const minute = minutesOptions[Math.floor(Math.random() * minutesOptions.length)];
+
+  return `${hour}:${minute}`;
+}
+
+function getTakenSeats() {
+  const allSeats = Array.from({ length: 30 }, (_, i) => i + 1); // 1'den 30'a kadar tüm koltuklar
+
+  // Rastgele bir dolu koltuk sayısı belirle (örneğin 5 ile 20 arası)
+  const numberOfTakenSeats = Math.floor(Math.random() * 16) + 5;
+
+  // Koltukları rastgele sırala ve ilk belirlenen sayı kadarını al
+  const takenSeats = allSeats
+    .sort(() => 0.5 - Math.random()) // Rastgele sıralama
+    .slice(0, numberOfTakenSeats); // Belirlenen sayıda koltuğu al
+
+  // İstenen formatta bir diziye dönüştür
+  return takenSeats.map((seatNumber) => ({ seatNumber }));
 }
 
 function getRandomPrice() {
@@ -31,14 +52,18 @@ for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
   for (const from of cities) {
     for (const to of cities) {
       if (from.name !== to.name) {
-        trips.push({
-          id: idCounter++,
-          from,
-          to,
-          date: dateStr,
-          availableSeats: getRandomSeats(),
-          price: getRandomPrice(),
-        });
+        const tripCount = Math.floor(Math.random() * 3) + 1; // 1 ile 3 arası sefer
+        for (let i = 0; i < tripCount; i++) {
+          trips.push({
+            id: idCounter++,
+            from,
+            to,
+            date: dateStr,
+            availableSeats: getTakenSeats(),
+            price: getRandomPrice(),
+            time: formatTime(),
+          });
+        }
       }
     }
   }

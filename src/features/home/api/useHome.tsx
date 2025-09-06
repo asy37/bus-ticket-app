@@ -2,11 +2,12 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { endpoint } from '@/lib/api/endpoints/endpoints';
 import { apiService } from '@/lib/api/services/apiServices';
-import { storageHandler } from '@/lib/handler/storageHandler';
 import { CityType } from '@/lib/types/cities';
 import { InquiryType } from '@/lib/types/inquiry';
+import { useInquiryStore } from '@/store/useStore';
 
 export const useHome = () => {
+  const { setTrips } = useInquiryStore();
   const usePostInquiry = () => {
     return useMutation({
       mutationFn: async (data: InquiryType) => {
@@ -18,7 +19,7 @@ export const useHome = () => {
         return response;
       },
       onSuccess: (response) => {
-        storageHandler.post('user', response.data);
+        setTrips(response.data);
       },
       onError: (error: any) => {
         console.error('Login error:', error.response?.data || error.message);
