@@ -8,8 +8,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Separator } from '@/components/ui/separator';
 import { LoginType } from '@/lib/types/login';
 
-import { LoginForm } from '../_components/LoginForm';
-import { loginSchema } from '../_components/loginSchema';
+import { LoginForm } from '../components/LoginForm';
+import { loginSchema } from '../components/loginSchema';
 
 export const LoginView = () => {
   const methods = useForm<LoginType>({

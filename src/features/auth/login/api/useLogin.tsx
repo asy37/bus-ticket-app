@@ -11,7 +11,6 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: async (data: LoginType) => {
       const response = await apiService.post(endpoint.login, data);
-      // Eğer API response içinde success alanı varsa kontrol edelim
       if (response.data?.success === false) {
         throw new Error(response.data?.message || 'Login failed');
       }
