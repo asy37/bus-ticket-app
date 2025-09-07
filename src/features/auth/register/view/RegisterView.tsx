@@ -26,7 +26,7 @@ export const RegisterView = () => {
 
   return (
     <div className="border-secondary space-y-2 rounded border p-4">
-      <h1 className="text-center text-2xl font-bold">Kayıt Ol</h1>
+      <h1 className="text-center text-2xl font-bold">Register</h1>
       <Separator />
       <RegisterForm methods={methods} />
     </div>

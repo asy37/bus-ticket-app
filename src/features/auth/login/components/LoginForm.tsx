@@ -46,7 +46,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ methods }) => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Parola</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -54,7 +54,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ methods }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">Gönder</Button>
+          <Button type="submit">Login</Button>
         </form>
       </FormProvider>
     </>

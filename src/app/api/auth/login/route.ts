@@ -2,9 +2,6 @@ import { NextResponse } from 'next/server';
 
 import { users } from '../register/route';
 
-// Aynı memory kullanılıyor
-// Bu dosyada users array’i aynı scope’da olmalı veya import edilebilir
-
 export async function POST(request: Request) {
   const { email, password } = await request.json();
   const user = users.find((u) => u.email === email && u.password === password);
@@ -12,7 +9,7 @@ export async function POST(request: Request) {
   if (!user) {
     debugger;
     return NextResponse.json(
-      { success: false, message: 'Geçersiz email veya şifre' },
+      { success: false, message: 'Please enter a valid email!' },
       { status: 401 }
     );
   }
@@ -24,6 +21,6 @@ export async function POST(request: Request) {
       name: user.name,
       surname: user.surname,
     },
-    message: 'Login başarılı',
+    message: 'Login success',
   });
 }

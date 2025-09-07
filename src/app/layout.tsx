@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
-import type { Metadata } from 'next';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -11,10 +10,6 @@ import { storageHandler } from '@/lib/handler/storageHandler';
 import { useStore } from '@/store/useStore';
 
 import '../styles/globals.css';
-
-// export const metadata: Metadata = {
-//   title: 'Bus Ticket App',
-// };
 
 export default function RootLayout({
   children,

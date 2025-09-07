@@ -26,8 +26,7 @@ export const useLogin = () => {
       toast.success('Login Success!');
     },
     onError: (error: any) => {
-      const message =
-        error.response?.data?.message || error.message || 'Giriş sırasında bir hata oluştu';
+      const message = error.response?.data?.message || error.message || 'Something is went wrong';
       toast.error(message);
     },
   });

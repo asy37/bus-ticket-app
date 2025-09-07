@@ -25,7 +25,7 @@ export const useInquiryStore = create<InquiryStore>()(
       setTrips: (tripsStore) => set({ tripsStore }),
     }),
     {
-      name: 'inquiry-storage', // localStorage key
+      name: 'inquiry-storage',
     }
   )
 );
@@ -37,7 +37,7 @@ type TripDetail = {
 
 type TripDetailStore = {
   selectedLimit: boolean;
-  tripDetail: Record<number, TripDetail>; // id bazlı
+  tripDetail: Record<number, TripDetail>;
   addSeat: (
     tripId: number,
     seatNumber: number,
@@ -49,7 +49,7 @@ type TripDetailStore = {
 };
 
 export const useTripDetail = create<TripDetailStore>((set, get) => ({
-  tripDetail: {}, // { [tripId]: { tripInfo, selectedSeats } }
+  tripDetail: {},
   selectedLimit: false,
 
   setTripDetail: (detail) => {
