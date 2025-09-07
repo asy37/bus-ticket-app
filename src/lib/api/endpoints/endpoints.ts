@@ -5,4 +5,6 @@ export const endpoint: Endpoints = {
   login: '/api/auth/login',
   inquiry: '/api/inquiry',
   cities: '/api/cities',
+  trip: '/api/buy-trip',
+  pay: '/api/pay-trip',
 };

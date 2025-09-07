@@ -5,18 +5,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Label } from '@/components/ui/label';
+import { Payment } from '@/lib/types/payment/types';
 
 import { CreditCard } from '../components/CreditCard';
 import { PaymentForm } from '../components/PaymentForm';
 import { PaymentSchema } from '../components/paymentSchema';
 import { SuccessModal } from '../components/SuccessModal';
 
-export type Payment = {
-  cardNumber: string;
-  cardDate: string;
-  cardName: string;
-  cardCvv: string;
-};
 export const PaymentView = () => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);

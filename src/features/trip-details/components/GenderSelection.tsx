@@ -45,7 +45,6 @@ export const GenderSelection: React.FC<GenderSelectionProps> = ({
   const handlePopoverClick = (clickedSeat: number) => {
     const adjacentSeatNumber = clickedSeat % 2 === 1 ? clickedSeat + 1 : clickedSeat - 1;
 
-    // Daha önce seçilmiş veya dolu koltuklar
     const allOccupiedSeats = [
       ...(tripDetail[tripId]?.selectedSeats || []),
       ...(tripDetail[tripId]?.tripInfo?.fullSeats ?? []),

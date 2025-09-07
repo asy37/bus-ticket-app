@@ -31,7 +31,7 @@ export const useHome = () => {
     return useQuery<CityType[]>({
       queryKey: ['cities'],
       queryFn: async (): Promise<CityType[]> => {
-        const response = await apiService.get<CityType[]>(endpoint.cities); // response: AxiosResponse<CityType[]>
+        const response = await apiService.get<CityType[]>(endpoint.cities);
         return response;
       },
     });

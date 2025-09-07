@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   const { from, to, departureDate } = body;
 
   if (!from || !to || !departureDate) {
-    return NextResponse.json({ error: 'Eksik parametre' }, { status: 400 });
+    return NextResponse.json({ error: 'Something is went wrong' }, { status: 400 });
   }
 
   const filteredTrips = trips.filter(

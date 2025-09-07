@@ -23,7 +23,7 @@ export const LoginView = () => {
 
   return (
     <div className="border-secondary space-y-2 rounded border p-4">
-      <h1 className="text-center text-2xl font-bold">Giriş Yap</h1>
+      <h1 className="text-center text-2xl font-bold">Login</h1>
       <Separator />
       <LoginForm methods={methods} />
     </div>

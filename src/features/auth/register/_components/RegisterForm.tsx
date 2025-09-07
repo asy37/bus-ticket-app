@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, FormProvider, UseFormReturn } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -21,10 +23,17 @@ type RegisterFormProps = {
 };
 export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
   const { mutateAsync: register } = useRegister();
-
+  const navigate = useRouter();
   const onSubmit = async (data: RegisterType) => {
-    await register(data);
+    try {
+      await register(data);
+      toast.success('Register is successfully!');
+      navigate.push('/login');
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Something is went wrong!');
+    }
   };
+
   return (
     <FormProvider {...methods}>
       <Form className="w-full space-y-8">
@@ -33,7 +42,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
           name="name"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Ad</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input type="text" {...field} />
               </FormControl>
@@ -46,7 +55,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
           name="surname"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Soyad</FormLabel>
+              <FormLabel>Surname</FormLabel>
               <FormControl>
                 <Input type="text" {...field} />
               </FormControl>
@@ -72,7 +81,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
           name="password"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Parola</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input type="password" {...field} />
               </FormControl>
@@ -85,15 +94,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
           name="gender"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Cinsiyet</FormLabel>
+              <FormLabel>Gender</FormLabel>
               <FormControl>
                 <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Cinsiyet" />
+                    <SelectValue placeholder="Gender" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="erkek">Erkek</SelectItem>
-                    <SelectItem value="kadın">Kadın</SelectItem>
+                    <SelectItem value="erkek">Man</SelectItem>
+                    <SelectItem value="kadın">Woman</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -106,7 +115,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
           name="birthdate"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Doğum Tarihi</FormLabel>
+              <FormLabel>Birth Date</FormLabel>
               <FormControl>
                 <DatePicker
                   value={field.value ? new Date(field.value) : undefined}
@@ -118,7 +127,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
           )}
         />
         <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
-          Gönder
+          Register
         </Button>
       </Form>
     </FormProvider>
