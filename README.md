@@ -1,6 +1,7 @@
 # 🚌 Bus Ticket App
 
-Modern ve kullanıcı dostu bir otobüs bileti rezervasyon uygulaması. Next.js 15, React 19 ve TypeScript ile geliştirilmiştir.
+Modern ve kullanıcı dostu bir otobüs bileti rezervasyon uygulaması. Next.js 15, React 19 ve TypeScript ile geliştirilmiştir.Vercel linkine buradan ulaşabilirsiniz :
+https://bus-ticket-app-theta.vercel.app/
 
 ## 📋 İçindekiler
 
