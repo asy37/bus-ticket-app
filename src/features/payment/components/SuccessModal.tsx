@@ -38,7 +38,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({ open, setOpen, loadi
             <AlertDialogDescription className="text-center">
               Congratulations. You bought ticket.
             </AlertDialogDescription>
-            <Button onClick={() => navigate.push('/')}>Go to Home Page</Button>
+            <Button onClick={() => navigate.push('/home')}>Go to Home Page</Button>
           </AlertDialogHeader>
         )}
       </AlertDialogContent>
