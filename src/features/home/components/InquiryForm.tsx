@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from '../../../components/ui/select';
 import { useHome } from '../api/useHome';
+import { parseDate } from '../utils';
 
 type InquiryFormProps = {
   methods: UseFormReturn<InquiryType>;
@@ -94,7 +95,7 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ methods }) => {
               <FormLabel>Departure Date</FormLabel>
               <FormControl>
                 <DatePicker
-                  value={field.value ? new Date(field.value) : undefined}
+                  value={parseDate(field.value)}
                   onChange={(date) => {
                     if (!date) {
                       field.onChange('');
