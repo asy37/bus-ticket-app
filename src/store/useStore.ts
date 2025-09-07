@@ -32,13 +32,18 @@ export const useInquiryStore = create<InquiryStore>()(
 
 type TripDetail = {
   tripInfo: Trip | null;
-  selectedSeats: { seatNumber: number; gender: 'male' | 'female' }[];
+  selectedSeats: { seatNumber: number; gender: 'male' | 'female'; travellerName: string }[];
 };
 
 type TripDetailStore = {
   selectedLimit: boolean;
   tripDetail: Record<number, TripDetail>; // id bazlı
-  addSeat: (tripId: number, seatNumber: number, gender: 'male' | 'female') => void;
+  addSeat: (
+    tripId: number,
+    seatNumber: number,
+    gender: 'male' | 'female',
+    travellerName: string
+  ) => void;
   removeSeat: (tripId: number, seatNumber: number) => void;
   setTripDetail: (detail: TripDetail) => void;
 };
@@ -55,9 +60,8 @@ export const useTripDetail = create<TripDetailStore>((set, get) => ({
     }));
   },
 
-  addSeat: (tripId: number, seatNumber: number, gender: 'male' | 'female') => {
+  addSeat: (tripId, seatNumber, gender, travellerName) => {
     const state = get();
-
     const tripDetail = state.tripDetail[tripId] || { tripInfo: null, selectedSeats: [] };
     const seats = [...tripDetail.selectedSeats];
     const existingIndex = seats.findIndex((s) => s.seatNumber === seatNumber);
@@ -68,9 +72,9 @@ export const useTripDetail = create<TripDetailStore>((set, get) => ({
     }
 
     if (existingIndex !== -1) {
-      seats[existingIndex] = { seatNumber, gender };
+      seats[existingIndex] = { seatNumber, gender, travellerName };
     } else {
-      seats.push({ seatNumber, gender });
+      seats.push({ seatNumber, gender, travellerName });
     }
 
     set((state) => ({

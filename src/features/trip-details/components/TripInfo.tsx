@@ -23,7 +23,7 @@ export const TripInfo: React.FC<TripInfoProps> = ({ trip }) => {
     if (seat) {
       return alert();
     }
-    return (addInfoToStore({ tripInfo: info, selectedSeats }), navigate.push('/trips-details'));
+    return (addInfoToStore({ tripInfo: info, selectedSeats }), navigate.push(`/payment`));
   };
 
   return (

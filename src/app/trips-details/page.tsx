@@ -1,4 +1,4 @@
-import { TripDetailsView } from '@/features/trip-details/view/TripDetailsView';
+import { TripDetailsView } from '@/features/trip-details/view';
 
 const TripDetails = () => {
   return <TripDetailsView />;
