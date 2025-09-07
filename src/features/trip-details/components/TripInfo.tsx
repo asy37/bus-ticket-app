@@ -16,15 +16,16 @@ export const TripInfo: React.FC<TripInfoProps> = ({ trip }) => {
   const { tripDetail } = useTripDetail();
   const addInfoToStore = useTripDetail((state) => state.setTripDetail);
 
-  const selectedSeats = tripDetail.selectedSeats;
+  const selectedSeats = tripDetail[trip.id]?.selectedSeats ?? [];
   const disabled = selectedSeats.length <= 0;
 
   const handleInfo = (info: Trip, seat: boolean) => {
     if (seat) {
       return alert();
     }
-    return (addInfoToStore({ tripInfo: info, selectedSeats }), navigate.push('/trips-details'));
+    return (addInfoToStore({ tripInfo: info, selectedSeats }), navigate.push(`/payment`));
   };
+
   return (
     <CardContent className="flex w-full flex-row items-center justify-between">
       <div>

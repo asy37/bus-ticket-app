@@ -11,6 +11,13 @@ import { Button } from '../ui/button';
 import { mockBackgroundsData } from './mockData';
 
 export const Background = () => {
+  const handleScrollDown = () => {
+    window.scrollBy({
+      top: 500,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <div className="h-[760px] w-full">
       <Carousel
@@ -36,7 +43,7 @@ export const Background = () => {
       </Carousel>
       <div className="absolute top-0 flex h-[760px] w-full flex-col items-start justify-center gap-8 bg-black/20 px-20">
         <h1 className="w-96 text-6xl text-white">Are you ready explore Türkiye with us?</h1>
-        <Button type="button" variant="outline" className="w-32">
+        <Button onClick={handleScrollDown} type="button" variant="outline" className="w-32">
           Explore
         </Button>
       </div>

@@ -31,7 +31,7 @@ export const InquiryForm: React.FC<InquiryFormProps> = ({ methods }) => {
 
   const onSubmit = async (data: InquiryType) => {
     await cusePostInquiry(data);
-    navigate.push('/inquiry');
+    navigate.push('/trips-details');
   };
   return (
     <FormProvider {...methods}>

@@ -32,60 +32,74 @@ export const useInquiryStore = create<InquiryStore>()(
 
 type TripDetail = {
   tripInfo: Trip | null;
-  selectedSeats: number[];
+  selectedSeats: { seatNumber: number; gender: 'male' | 'female'; travellerName: string }[];
 };
 
 type TripDetailStore = {
-  tripDetail: TripDetail;
+  selectedLimit: boolean;
+  tripDetail: Record<number, TripDetail>; // id bazlı
+  addSeat: (
+    tripId: number,
+    seatNumber: number,
+    gender: 'male' | 'female',
+    travellerName: string
+  ) => void;
+  removeSeat: (tripId: number, seatNumber: number) => void;
   setTripDetail: (detail: TripDetail) => void;
-  addSeat: (seatNumber: number) => void;
-  removeSeat: (seatNumber: number) => void;
-  seatWarning: boolean;
 };
 
 export const useTripDetail = create<TripDetailStore>((set, get) => ({
-  tripDetail: {
-    tripInfo: null,
-    selectedSeats: [],
-  },
-  seatWarning: false,
-  setTripDetail: (detail) => set({ tripDetail: detail }),
-  addSeat: (seatNumber) => {
-    const { tripDetail } = get();
-    const isSelected = tripDetail.selectedSeats.includes(seatNumber);
+  tripDetail: {}, // { [tripId]: { tripInfo, selectedSeats } }
+  selectedLimit: false,
 
-    // Koltuk zaten seçilmişse çıkart
-    if (isSelected) {
-      set({
-        tripDetail: {
-          ...tripDetail,
-          selectedSeats: tripDetail.selectedSeats.filter((s) => s !== seatNumber),
-        },
-        seatWarning: false,
-      });
+  setTripDetail: (detail) => {
+    const id = detail.tripInfo?.id;
+    if (!id) return;
+    set((state) => ({
+      tripDetail: { ...state.tripDetail, [id]: detail },
+    }));
+  },
+
+  addSeat: (tripId, seatNumber, gender, travellerName) => {
+    const state = get();
+    const tripDetail = state.tripDetail[tripId] || { tripInfo: null, selectedSeats: [] };
+    const seats = [...tripDetail.selectedSeats];
+    const existingIndex = seats.findIndex((s) => s.seatNumber === seatNumber);
+
+    if (seats.length >= 5 && existingIndex === -1) {
+      set({ selectedLimit: true });
       return;
     }
 
-    // 5 koltuktan fazlasını seçmeye izin verme
-    if (tripDetail.selectedSeats.length >= 5) {
-      set({ seatWarning: true });
-      return;
+    if (existingIndex !== -1) {
+      seats[existingIndex] = { seatNumber, gender, travellerName };
+    } else {
+      seats.push({ seatNumber, gender, travellerName });
     }
 
-    set({
-      tripDetail: {
-        ...tripDetail,
-        selectedSeats: [...tripDetail.selectedSeats, seatNumber],
-      },
-      seatWarning: false,
-    });
-  },
-  removeSeat: (seatNumber) =>
     set((state) => ({
       tripDetail: {
         ...state.tripDetail,
-        selectedSeats: state.tripDetail.selectedSeats.filter((s) => s !== seatNumber),
+        [tripId]: { ...tripDetail, selectedSeats: seats },
       },
-      seatWarning: state.tripDetail.selectedSeats.length - 1 >= 5,
-    })),
+      selectedLimit: false,
+    }));
+  },
+
+  removeSeat: (tripId: number, seatNumber: number) => {
+    const state = get();
+    const tripDetail = state.tripDetail[tripId];
+    if (!tripDetail) return;
+
+    set((state) => ({
+      tripDetail: {
+        ...state.tripDetail,
+        [tripId]: {
+          ...tripDetail,
+          selectedSeats: tripDetail.selectedSeats.filter((s) => s.seatNumber !== seatNumber),
+        },
+      },
+      selectedLimit: false,
+    }));
+  },
 }));

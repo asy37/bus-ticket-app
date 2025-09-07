@@ -1,14 +1,28 @@
 'use client';
-import { Card, CardHeader } from '@/components/ui/card';
-import { useTripDetail } from '@/store/useStore';
+import React from 'react';
+
+import { Card } from '@/components/ui/card';
+import { Trip } from '@/lib/types/inquiry';
+import { useInquiryStore } from '@/store/useStore';
+
+import { Seats } from '../components/Seats';
+import { TripInfo } from '../components/TripInfo';
 
 export const TripDetailsView = () => {
-  const { tripDetail } = useTripDetail();
-  console.log(tripDetail);
+  const { tripsStore } = useInquiryStore();
 
   return (
-    <Card>
-      <CardHeader>he</CardHeader>
-    </Card>
+    <div className="flex h-full min-w-full flex-col items-center justify-center gap-10 p-10">
+      {tripsStore.map((trip: Trip) => {
+        const fullSeat = trip.fullSeats.map((seat) => seat.seatNumber);
+
+        return (
+          <Card className="flex w-full items-center justify-center" key={trip.id}>
+            <TripInfo trip={trip} />
+            <Seats trip={trip} fullSeat={fullSeat} seats={trip.fullSeats} />
+          </Card>
+        );
+      })}
+    </div>
   );
 };
