@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, FormProvider, UseFormReturn } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -21,10 +23,17 @@ type RegisterFormProps = {
 };
 export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
   const { mutateAsync: register } = useRegister();
-
+  const navigate = useRouter();
   const onSubmit = async (data: RegisterType) => {
-    await register(data);
+    try {
+      await register(data);
+      toast.success('Kayıt başarıyla tamamlandı!');
+      navigate.push('/login');
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Kayıt sırasında bir hata oluştu!');
+    }
   };
+
   return (
     <FormProvider {...methods}>
       <Form className="w-full space-y-8">

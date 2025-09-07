@@ -4,9 +4,10 @@ import { Form, FormProvider, UseFormReturn } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Payment } from '@/lib/types/payment/types';
 
+import { usePayment } from '../api/usePayment';
 import { formatCardDate, formatCardNumber } from '../utils';
-import { Payment } from '../view/PaymentView';
 
 type PaymentFormProps = {
   setOpen: (open: boolean) => void;
@@ -24,9 +25,9 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
   setCardName,
   setCardCvv,
 }) => {
-  const handlePay = (data: any) => {
-    console.log(data);
-
+  const { mutateAsync: payRequest } = usePayment();
+  const handlePay = async (data: Payment) => {
+    await payRequest(data);
     setOpen(true);
   };
   return (

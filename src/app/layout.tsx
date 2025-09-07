@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import type { Metadata } from 'next';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -41,6 +42,17 @@ export default function RootLayout({
     <html lang="en">
       <body className="relative min-h-screen min-w-full">
         <QueryClientProvider client={queryClient}>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
           <Header />
           <div className="flex w-full">{children}</div>
         </QueryClientProvider>

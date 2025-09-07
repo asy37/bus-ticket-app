@@ -3,4 +3,6 @@ export type Endpoints = {
   login: string;
   inquiry: string;
   cities: string;
+  trip: string;
+  pay: string;
 };
