@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { findPair } from '@/features/inquiry/utils';
 import { Trip } from '@/lib/types/inquiry';
 
 interface AuthStore {
