@@ -20,7 +20,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ methods }) => {
 
   const onSubmit = async (data: LoginType) => {
     await login(data);
-    navigate.push('/');
+    navigate.push('/home');
   };
 
   return (

@@ -19,19 +19,22 @@ export default function RootLayout({
   const queryClient = new QueryClient();
   const navigate = useRouter();
   const pathname = usePathname();
-  const isAuthenticated = useStore((state) => state.isAuthenticated);
   // RootLayout.tsx
 
   React.useEffect(() => {
     const user = storageHandler.get('user');
     if (user) {
       useStore.getState().setIsAuthenticated(true);
-    } else if (isAuthenticated && (pathname === '/login' || pathname === '/register')) {
-      navigate.push('/');
-    } else if (!isAuthenticated && pathname !== '/login' && pathname !== '/register') {
-      navigate.push('/login');
+      if (pathname === '/login' || pathname === '/register') {
+        navigate.push('/home');
+      }
+    } else {
+      useStore.getState().setIsAuthenticated(false);
+      if (pathname !== '/login' && pathname !== '/register') {
+        navigate.push('/login');
+      }
     }
-  }, [isAuthenticated, navigate, pathname]);
+  }, [navigate, pathname]);
 
   return (
     <html lang="en">
