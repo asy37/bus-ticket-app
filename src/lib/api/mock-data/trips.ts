@@ -4,15 +4,13 @@ import { cities } from './cities';
 
 function formatDate(date: Date) {
   const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
   return `${day}.${month}.${year}`;
 }
 function formatTime() {
-  // 0–23 arasında saat
   const hour = String(Math.floor(Math.random() * 24)).padStart(2, '0');
 
-  // Dakikalar sadece [00, 15, 30, 45]
   const minutesOptions = ['00', '15', '30', '45'];
   const minute = minutesOptions[Math.floor(Math.random() * minutesOptions.length)];
 
@@ -20,25 +18,29 @@ function formatTime() {
 }
 
 function getTakenSeats() {
-  const allSeats = Array.from({ length: 30 }, (_, i) => i + 1); // 1'den 30'a kadar tüm koltuklar
+  const allSeats = Array.from({ length: 30 }, (_, i) => i + 1);
 
-  // Rastgele bir dolu koltuk sayısı belirle (örneğin 5 ile 20 arası)
   const numberOfTakenSeats = Math.floor(Math.random() * 16) + 5;
 
-  // Koltukları rastgele sırala ve ilk belirlenen sayı kadarını al
-  const takenSeats = allSeats
-    .sort(() => 0.5 - Math.random()) // Rastgele sıralama
-    .slice(0, numberOfTakenSeats); // Belirlenen sayıda koltuğu al
+  const shuffledSeats = allSeats.toSorted(() => 0.5 - Math.random());
+  const takenSeats = shuffledSeats.slice(0, numberOfTakenSeats);
 
-  // İstenen formatta bir diziye dönüştür
-  return takenSeats.map((seatNumber) => ({ seatNumber }));
+  const takenSeatsWithGender = [];
+  for (let i = 0; i < takenSeats.length; i += 2) {
+    const gender = Math.random() < 0.5 ? 'male' : 'female';
+    takenSeatsWithGender.push({ seatNumber: takenSeats[i], gender });
+    if (i + 1 < takenSeats.length) {
+      takenSeatsWithGender.push({ seatNumber: takenSeats[i + 1], gender });
+    }
+  }
+
+  return takenSeatsWithGender;
 }
 
 function getRandomPrice() {
   return Math.floor(Math.random() * 200) + 50;
 }
 
-// explicit type annotation ekliyoruz
 const trips: Trip[] = [];
 
 let idCounter = 1;
@@ -52,7 +54,7 @@ for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
   for (const from of cities) {
     for (const to of cities) {
       if (from.name !== to.name) {
-        const tripCount = Math.floor(Math.random() * 3) + 1; // 1 ile 3 arası sefer
+        const tripCount = Math.floor(Math.random() * 3) + 1;
         for (let i = 0; i < tripCount; i++) {
           trips.push({
             id: idCounter++,

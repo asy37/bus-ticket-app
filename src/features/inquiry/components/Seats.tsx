@@ -12,20 +12,26 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useTripDetail } from '@/store/useStore';
 
-import { getSeatColor, seatLeftArray, seatRightArray } from '../utils';
+import { genderColor, seatLeftArray, seatRightArray } from '../utils';
 
 type SeatProps = {
   fullSeat: number[];
+  seats: {
+    gender: string;
+    seatNumber: number;
+  }[];
 };
-export const Seats: React.FC<SeatProps> = ({ fullSeat }) => {
+export const Seats: React.FC<SeatProps> = ({ fullSeat, seats }) => {
   const addSeatToStore = useTripDetail((state) => state.addSeat);
   const { tripDetail, seatWarning } = useTripDetail();
   const selectedSeats = tripDetail.selectedSeats;
+
   React.useEffect(() => {
     if (seatWarning) {
       return alert();
     }
   }, [seatWarning]);
+
   return (
     <div className="w-2/5">
       <Accordion type="single" collapsible>
@@ -38,7 +44,8 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat }) => {
               </Label>
               <div className="grid grid-flow-col grid-rows-2 gap-2">
                 {seatRightArray.map((seat) => {
-                  const colorClass = getSeatColor(seat.seatNumber, fullSeat);
+                  const currentSeats = seats.find((s) => s.seatNumber === seat.seatNumber);
+                  const genderColorClass = genderColor(currentSeats?.gender);
                   const disabled = fullSeat.includes(seat.seatNumber);
 
                   return (
@@ -48,7 +55,7 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat }) => {
                         onClick={() => addSeatToStore(seat.seatNumber)}
                         className={twMerge(
                           'w-12',
-                          colorClass,
+                          genderColorClass,
                           selectedSeats.includes(seat.seatNumber) && 'bg-yellow-500'
                         )}
                       >
@@ -66,8 +73,9 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat }) => {
               </Label>
               <div className="grid grid-flow-col grid-rows-2 gap-2">
                 {seatLeftArray.map((seat) => {
+                  const currentSeats = seats.find((s) => s.seatNumber === seat.seatNumber);
+                  const genderColorClass = genderColor(currentSeats?.gender);
                   const disabled = fullSeat.includes(seat.seatNumber);
-                  const colorClass = getSeatColor(seat.seatNumber, fullSeat);
                   return (
                     <div key={seat.id}>
                       <Button
@@ -75,7 +83,7 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat }) => {
                         onClick={() => addSeatToStore(seat.seatNumber)}
                         className={twMerge(
                           'w-12',
-                          colorClass,
+                          genderColorClass,
                           selectedSeats.includes(seat.seatNumber) && 'bg-yellow-500'
                         )}
                       >

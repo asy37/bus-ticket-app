@@ -1,10 +1,8 @@
-export const getSeatColor = (seatNumber: number, fullSeat: number[]) => {
-  const isFull = fullSeat.includes(seatNumber);
-  if (!isFull) {
+export const genderColor = (gender: string | undefined) => {
+  if (gender === undefined) {
     return 'bg-gray-300';
   }
-  const index = fullSeat.indexOf(seatNumber);
-  return index % 2 === 0 ? 'bg-blue-400' : 'bg-pink-400';
+  return gender === 'male' ? 'bg-blue-400' : 'bg-pink-400';
 };
 
 export const seatLeftArray = Array.from({ length: 16 }, (_, i) => ({

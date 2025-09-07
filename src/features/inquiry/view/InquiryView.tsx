@@ -19,7 +19,7 @@ export const InquiryView = () => {
         return (
           <Card className="flex w-full items-center justify-center" key={trip.id}>
             <TripInfo trip={trip} />
-            <Seats fullSeat={fullSeat} />
+            <Seats fullSeat={fullSeat} seats={trip.availableSeats} />
           </Card>
         );
       })}

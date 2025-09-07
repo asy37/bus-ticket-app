@@ -13,6 +13,7 @@ export type Trip = {
   date: string;
   availableSeats: {
     seatNumber: number;
+    gender: string;
   }[];
   price: number;
   time: string;
