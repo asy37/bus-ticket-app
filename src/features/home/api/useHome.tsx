@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { endpoint } from '@/lib/api/endpoints/endpoints';
 import { apiService } from '@/lib/api/services/apiServices';
+import { ApiError } from '@/lib/types/api/types';
 import { CityType } from '@/lib/types/cities';
 import { InquiryType } from '@/lib/types/inquiry';
 import { useInquiryStore } from '@/store/useStore';
@@ -21,7 +22,7 @@ export const useHome = () => {
       onSuccess: (response) => {
         setTrips(response.data);
       },
-      onError: (error: any) => {
+      onError: (error: ApiError) => {
         console.error('Login error:', error.response?.data || error.message);
       },
     });

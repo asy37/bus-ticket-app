@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { ApiError } from '@/lib/types/api/types';
 import { RegisterType } from '@/lib/types/register';
 
 import { useRegister } from '../api/useRegister';
@@ -29,8 +30,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ methods }) => {
       await register(data);
       toast.success('Register is successfully!');
       navigate.push('/login');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Something is went wrong!');
+    } catch (error) {
+      const apiError = error as ApiError;
+      toast.error(apiError.response?.data?.message || 'Something is went wrong!');
     }
   };
 
