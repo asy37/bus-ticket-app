@@ -10,15 +10,17 @@ type GenderSelectionProps = {
   seat: number;
   disabled?: boolean;
   genderColorClass?: string;
+  tripId: number;
 };
 
 export const GenderSelection: React.FC<GenderSelectionProps> = ({
   seat,
   disabled = false,
   genderColorClass,
+  tripId,
 }) => {
   const { tripDetail, addSeat, removeSeat, selectedLimit } = useTripDetail();
-  const selectedSeat = tripDetail.selectedSeats.find((s) => s.seatNumber === seat);
+  const selectedSeat = (tripDetail[tripId]?.selectedSeats || []).find((s) => s.seatNumber === seat);
 
   React.useEffect(() => {
     if (selectedLimit) {
@@ -27,12 +29,14 @@ export const GenderSelection: React.FC<GenderSelectionProps> = ({
   }, [selectedLimit]);
 
   const handleSelect = (seat: number, gender: 'male' | 'female') => {
-    const selectedSeat = tripDetail.selectedSeats.find((s) => s.seatNumber === seat);
+    const selectedSeat = (tripDetail[tripId]?.selectedSeats || []).find(
+      (s) => s.seatNumber === seat
+    );
 
     if (selectedSeat?.gender === gender) {
-      removeSeat(seat);
+      removeSeat(tripId, seat);
     } else {
-      addSeat(seat, gender);
+      addSeat(tripId, seat, gender);
     }
   };
 
@@ -41,8 +45,8 @@ export const GenderSelection: React.FC<GenderSelectionProps> = ({
 
     // Daha önce seçilmiş veya dolu koltuklar
     const allOccupiedSeats = [
-      ...tripDetail.selectedSeats,
-      ...(tripDetail.tripInfo?.fullSeats ?? []),
+      ...(tripDetail[tripId]?.selectedSeats || []),
+      ...(tripDetail[tripId]?.tripInfo?.fullSeats ?? []),
     ];
     const adjacentSeat = allOccupiedSeats.find((s) => s.seatNumber === adjacentSeatNumber);
 

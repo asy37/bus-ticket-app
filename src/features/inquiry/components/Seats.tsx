@@ -27,7 +27,11 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat, seats, trip }) => {
   const addInfoToStore = useTripDetail((state) => state.setTripDetail);
 
   const handleAddStore = (info: Trip) => {
-    return addInfoToStore({ tripInfo: info, selectedSeats: tripDetail.selectedSeats });
+    const currentTripDetail = tripDetail[info.id] || { tripInfo: info, selectedSeats: [] };
+    addInfoToStore({
+      tripInfo: info,
+      selectedSeats: currentTripDetail.selectedSeats,
+    });
   };
   return (
     <div className="w-2/5">
@@ -48,6 +52,7 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat, seats, trip }) => {
                   return (
                     <div key={seat.id}>
                       <GenderSelection
+                        tripId={trip.id}
                         seat={seat.seatNumber}
                         disabled={disabled}
                         genderColorClass={genderColorClass}
@@ -70,6 +75,7 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat, seats, trip }) => {
                   return (
                     <div key={seat.id}>
                       <GenderSelection
+                        tripId={trip.id}
                         seat={seat.seatNumber}
                         disabled={disabled}
                         genderColorClass={genderColorClass}

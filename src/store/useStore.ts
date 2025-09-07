@@ -37,49 +37,65 @@ type TripDetail = {
 
 type TripDetailStore = {
   selectedLimit: boolean;
-  tripDetail: TripDetail;
-  addSeat: (seatNumber: number, gender: 'male' | 'female') => void;
-  removeSeat: (seatNumber: number) => void;
+  tripDetail: Record<number, TripDetail>; // id bazlı
+  addSeat: (tripId: number, seatNumber: number, gender: 'male' | 'female') => void;
+  removeSeat: (tripId: number, seatNumber: number) => void;
   setTripDetail: (detail: TripDetail) => void;
 };
 
 export const useTripDetail = create<TripDetailStore>((set, get) => ({
-  tripDetail: {
-    tripInfo: null,
-    selectedSeats: [],
-  },
+  tripDetail: {}, // { [tripId]: { tripInfo, selectedSeats } }
   selectedLimit: false,
-  setTripDetail: (detail) => set({ tripDetail: detail }),
 
-  addSeat: (seatNumber, gender) => {
+  setTripDetail: (detail) => {
+    const id = detail.tripInfo?.id;
+    if (!id) return;
+    set((state) => ({
+      tripDetail: { ...state.tripDetail, [id]: detail },
+    }));
+  },
+
+  addSeat: (tripId: number, seatNumber: number, gender: 'male' | 'female') => {
     const state = get();
-    const seats = [...state.tripDetail.selectedSeats];
+
+    const tripDetail = state.tripDetail[tripId] || { tripInfo: null, selectedSeats: [] };
+    const seats = [...tripDetail.selectedSeats];
     const existingIndex = seats.findIndex((s) => s.seatNumber === seatNumber);
 
     if (seats.length >= 5 && existingIndex === -1) {
       set({ selectedLimit: true });
       return;
     }
+
     if (existingIndex !== -1) {
       seats[existingIndex] = { seatNumber, gender };
     } else {
       seats.push({ seatNumber, gender });
     }
 
-    set({
-      tripDetail: { ...state.tripDetail, selectedSeats: seats },
-      selectedLimit: false,
-    });
-  },
-
-  removeSeat: (seatNumber) => {
-    const state = get();
-    set({
+    set((state) => ({
       tripDetail: {
         ...state.tripDetail,
-        selectedSeats: state.tripDetail.selectedSeats.filter((s) => s.seatNumber !== seatNumber),
+        [tripId]: { ...tripDetail, selectedSeats: seats },
       },
       selectedLimit: false,
-    });
+    }));
+  },
+
+  removeSeat: (tripId: number, seatNumber: number) => {
+    const state = get();
+    const tripDetail = state.tripDetail[tripId];
+    if (!tripDetail) return;
+
+    set((state) => ({
+      tripDetail: {
+        ...state.tripDetail,
+        [tripId]: {
+          ...tripDetail,
+          selectedSeats: tripDetail.selectedSeats.filter((s) => s.seatNumber !== seatNumber),
+        },
+      },
+      selectedLimit: false,
+    }));
   },
 }));
