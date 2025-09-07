@@ -61,7 +61,7 @@ for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
             from,
             to,
             date: dateStr,
-            availableSeats: getTakenSeats(),
+            fullSeats: getTakenSeats(),
             price: getRandomPrice(),
             time: formatTime(),
           });

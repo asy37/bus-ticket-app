@@ -11,7 +11,7 @@ export type Trip = {
   from: (typeof cities)[number];
   to: (typeof cities)[number];
   date: string;
-  availableSeats: {
+  fullSeats: {
     seatNumber: number;
     gender: string;
   }[];

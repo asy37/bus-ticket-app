@@ -14,12 +14,12 @@ export const InquiryView = () => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-10 p-10">
       {tripsStore.map((trip: Trip) => {
-        const fullSeat = trip.availableSeats.map((seat) => seat.seatNumber);
+        const fullSeat = trip.fullSeats.map((seat) => seat.seatNumber);
 
         return (
           <Card className="flex w-full items-center justify-center" key={trip.id}>
             <TripInfo trip={trip} />
-            <Seats fullSeat={fullSeat} seats={trip.availableSeats} />
+            <Seats trip={trip} fullSeat={fullSeat} seats={trip.fullSeats} />
           </Card>
         );
       })}

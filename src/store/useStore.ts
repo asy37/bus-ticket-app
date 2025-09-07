@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { findPair } from '@/features/inquiry/utils';
 import { Trip } from '@/lib/types/inquiry';
 
 interface AuthStore {
@@ -32,15 +33,15 @@ export const useInquiryStore = create<InquiryStore>()(
 
 type TripDetail = {
   tripInfo: Trip | null;
-  selectedSeats: number[];
+  selectedSeats: { seatNumber: number; gender: 'male' | 'female' }[];
 };
 
 type TripDetailStore = {
+  selectedLimit: boolean;
   tripDetail: TripDetail;
-  setTripDetail: (detail: TripDetail) => void;
-  addSeat: (seatNumber: number) => void;
+  addSeat: (seatNumber: number, gender: 'male' | 'female') => void;
   removeSeat: (seatNumber: number) => void;
-  seatWarning: boolean;
+  setTripDetail: (detail: TripDetail) => void;
 };
 
 export const useTripDetail = create<TripDetailStore>((set, get) => ({
@@ -48,44 +49,38 @@ export const useTripDetail = create<TripDetailStore>((set, get) => ({
     tripInfo: null,
     selectedSeats: [],
   },
-  seatWarning: false,
+  selectedLimit: false,
   setTripDetail: (detail) => set({ tripDetail: detail }),
-  addSeat: (seatNumber) => {
-    const { tripDetail } = get();
-    const isSelected = tripDetail.selectedSeats.includes(seatNumber);
 
-    // Koltuk zaten seçilmişse çıkart
-    if (isSelected) {
-      set({
-        tripDetail: {
-          ...tripDetail,
-          selectedSeats: tripDetail.selectedSeats.filter((s) => s !== seatNumber),
-        },
-        seatWarning: false,
-      });
+  addSeat: (seatNumber, gender) => {
+    const state = get();
+    const seats = [...state.tripDetail.selectedSeats];
+    const existingIndex = seats.findIndex((s) => s.seatNumber === seatNumber);
+
+    if (seats.length >= 5 && existingIndex === -1) {
+      set({ selectedLimit: true });
       return;
     }
-
-    // 5 koltuktan fazlasını seçmeye izin verme
-    if (tripDetail.selectedSeats.length >= 5) {
-      set({ seatWarning: true });
-      return;
+    if (existingIndex !== -1) {
+      seats[existingIndex] = { seatNumber, gender };
+    } else {
+      seats.push({ seatNumber, gender });
     }
 
     set({
-      tripDetail: {
-        ...tripDetail,
-        selectedSeats: [...tripDetail.selectedSeats, seatNumber],
-      },
-      seatWarning: false,
+      tripDetail: { ...state.tripDetail, selectedSeats: seats },
+      selectedLimit: false,
     });
   },
-  removeSeat: (seatNumber) =>
-    set((state) => ({
+
+  removeSeat: (seatNumber) => {
+    const state = get();
+    set({
       tripDetail: {
         ...state.tripDetail,
-        selectedSeats: state.tripDetail.selectedSeats.filter((s) => s !== seatNumber),
+        selectedSeats: state.tripDetail.selectedSeats.filter((s) => s.seatNumber !== seatNumber),
       },
-      seatWarning: state.tripDetail.selectedSeats.length - 1 >= 5,
-    })),
+      selectedLimit: false,
+    });
+  },
 }));

@@ -25,6 +25,7 @@ export const TripInfo: React.FC<TripInfoProps> = ({ trip }) => {
     }
     return (addInfoToStore({ tripInfo: info, selectedSeats }), navigate.push('/trips-details'));
   };
+
   return (
     <CardContent className="flex w-full flex-row items-center justify-between">
       <div>
