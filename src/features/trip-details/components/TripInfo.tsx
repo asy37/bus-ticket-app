@@ -32,7 +32,7 @@ export const TripInfo: React.FC<TripInfoProps> = ({ trip }) => {
   };
 
   return (
-    <CardContent className="flex w-full flex-row items-center justify-between">
+    <CardContent className="flex w-full flex-col items-center justify-between lg:flex-row">
       <div>
         <CardTitle className="border-b border-b-gray-200 text-2xl">Time</CardTitle>
         <CardDescription className="text-center text-xl">{trip.time}</CardDescription>
@@ -42,7 +42,7 @@ export const TripInfo: React.FC<TripInfoProps> = ({ trip }) => {
           <CardTitle className="border-b border-b-gray-200 text-2xl">From</CardTitle>
           <CardDescription className="text-center text-xl">{trip.from.name}</CardDescription>
         </div>
-        <div className="flex w-fit shrink-0 items-center p-4 text-center">
+        <div className="mx-auto flex w-fit shrink-0 items-center text-center">
           <MoveRightIcon />
         </div>
         <div className="w-fit shrink-0 p-4">

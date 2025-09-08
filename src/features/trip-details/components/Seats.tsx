@@ -34,12 +34,12 @@ export const Seats: React.FC<SeatProps> = ({ fullSeat, seats, trip }) => {
     });
   };
   return (
-    <div className="w-2/5">
+    <div className="w-full lg:w-2/5">
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger onClick={() => handleAddStore(trip)}>Choose a Ticket</AccordionTrigger>
           <AccordionContent>
-            <div className="h-full w-full rounded-2xl border-2 border-gray-500 p-2">
+            <div className="h-full w-full overflow-auto rounded-2xl border-2 border-gray-500 p-2">
               <div className="flex items-center gap-10">
                 <Label className="flex h-20 w-12 items-center justify-center rounded border-2 border-black text-center">
                   Door

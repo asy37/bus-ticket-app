@@ -4,7 +4,7 @@ import { InquiryBox } from '@/features/home/components/InquiryBox';
 export const HomeView = () => {
   return (
     <div className="w-full">
-      <Background />;
+      <Background />
       <InquiryBox />
     </div>
   );

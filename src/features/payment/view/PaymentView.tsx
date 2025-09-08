@@ -50,7 +50,7 @@ export const PaymentView = () => {
   return (
     <div className="mt-10 flex min-h-full w-full flex-col items-center justify-center gap-10 overflow-hidden">
       <Label className="text-4xl">Credit Card Information</Label>
-      <div className="flex gap-10">
+      <div className="flex flex-col items-center gap-10 lg:flex-row">
         <CreditCard
           cardNumber={cardNumber}
           cardDate={cardDate}

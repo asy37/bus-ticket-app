@@ -42,7 +42,9 @@ export const Background = () => {
         </CarouselContent>
       </Carousel>
       <div className="absolute top-0 flex h-[760px] w-full flex-col items-start justify-center gap-8 bg-black/20 px-20">
-        <h1 className="w-96 text-6xl text-white">Are you ready explore Türkiye with us?</h1>
+        <h1 className="w-52 text-2xl text-white lg:w-96 lg:text-6xl">
+          Are you ready explore Türkiye with us?
+        </h1>
         <Button onClick={handleScrollDown} type="button" variant="outline" className="w-32">
           Explore
         </Button>
